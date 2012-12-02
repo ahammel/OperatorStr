@@ -14,6 +14,16 @@ class OperatorStr(str):
         hex_bytes = hexlify(self.encode('utf-8'))
         return int(hex_bytes, 16)
 
+    def __xor__(self, other):
+        int_bytes = self._get_bytes() ^ other
+        try:                                    # If the return value is an
+            return bytes_to_ostr(int_bytes)     # int, convert it to an OStr.
+        except AttributeError:                  # Else, just return it.
+            return int_bytes
+
+    def __rxor__(self, other):
+        return self ^ other
+
 
 def bytes_to_ostr(int_bytes):
     """Converts an integer representation of bytes to a unicode 
