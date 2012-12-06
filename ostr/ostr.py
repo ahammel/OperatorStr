@@ -1,6 +1,5 @@
 import operator
 from binascii import hexlify
-import sys
 
 
 class OperatorStr(str):
@@ -121,6 +120,7 @@ class OperatorStr(str):
     def __ixor__(self, other):
         return _apply_operator(self, other, operator.xor)
 
+
 def bytes_to_ostr(int_bytes):
     """Converts an integer representation of bytes to a unicode 
     OperatorStr.
@@ -135,7 +135,9 @@ def bytes_to_ostr(int_bytes):
         else:
             break
 
-    return OperatorStr(byte_array.decode('utf-8'))
+    unicode_bytes = [chr(int(byte)) for byte in byte_array]
+    return OperatorStr("".join(unicode_bytes))
+
 
 
 def _get_ostr(value):
@@ -157,6 +159,7 @@ def _apply_operator(operator_string, n, operator):
     """
     int_bytes = operator(operator_string._get_bytes(), n)
     return _get_ostr(int_bytes)
+
 
 def _rapply_operator(operator_string, n, operator):
     """Like _apply_operator, only with the arguments reversed/
