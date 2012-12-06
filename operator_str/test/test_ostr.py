@@ -1,5 +1,5 @@
 import operator
-from ostr import OperatorStr, bytes_to_ostr
+from operator_str import OperatorStr, bytes_to_ostr
 
 class TestSmoke(object):
     """docstring for TestSmoke  """
