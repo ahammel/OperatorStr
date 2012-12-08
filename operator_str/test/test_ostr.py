@@ -1,5 +1,6 @@
 import operator
 from operator_str import OperatorStr, bytes_to_ostr
+import pytest
 
 class TestSmoke(object):
     """docstring for TestSmoke  """
@@ -28,3 +29,11 @@ class TestSmoke(object):
     def test_bytes_to_ostr(self):
         assert bytes_to_ostr(108170603228769) == OperatorStr("banana")
         assert bytes_to_ostr(0x41) == OperatorStr("A")
+
+    def test_float(self):
+        b = OperatorStr("banana")
+
+        with pytest.raises(TypeError):
+            b + 1.5
+        with pytest.raises(TypeError):
+            1.5 + b

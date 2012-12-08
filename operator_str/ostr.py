@@ -2,6 +2,17 @@ import operator
 from binascii import hexlify
 
 
+OPERS = {operator.add: "+",
+        operator.sub: "-",
+        operator.mul: "*",
+        operator.floordiv: "/",
+        operator.mod: "%",
+        operator.pow: "**",
+        operator.and_: "&",
+        operator.or_: "|",
+        operator.xor: "^"}
+
+
 class OperatorStr(str):
     """A string upon which one can perform bitwise operations. Useful for
     cryptography. Or maybe not.
@@ -157,6 +168,9 @@ def _apply_operator(operator_string, n, operator):
     an OperatorStr.
 
     """
+    if isinstance(n, float):
+        raise TypeError("unsupported operand type(s) for {}: "
+                        "'OperatorStr' and 'float'".format(OPERS[operator]))
     int_bytes = operator(operator_string._get_bytes(), n)
     return _get_ostr(int_bytes)
 
@@ -165,5 +179,8 @@ def _rapply_operator(operator_string, n, operator):
     """Like _apply_operator, only with the arguments reversed/
 
     """
+    if isinstance(n, float):
+        raise TypeError("unsupported operand type(s) for {}: "
+                        "'float' and 'OperatorStr'".format(OPERS[operator]))
     int_bytes = operator(n, operator_string._get_bytes())
     return _get_ostr(int_bytes)
