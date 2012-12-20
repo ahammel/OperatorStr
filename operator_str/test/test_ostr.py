@@ -37,3 +37,11 @@ class TestSmoke(object):
             b + 1.5
         with pytest.raises(TypeError):
             1.5 + b
+
+    def test_negative_bytes(self):
+        """bytes_to_ostr should fail when given negative bytes."""
+        with pytest.raises(OverflowError):
+            bytes_to_ostr(-1)
+
+        with pytest.raises(OverflowError):
+            OperatorStr('a') - OperatorStr('b')

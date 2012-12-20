@@ -137,6 +137,10 @@ def bytes_to_ostr(int_bytes):
     OperatorStr.
     
     """
+    # TODO: Fix this hideous function.
+    if int_bytes < 0:
+        raise OverflowError("Characters of byte-index < 0 are undefined!")
+
     size = 1
     while True:
         try:
@@ -150,15 +154,15 @@ def bytes_to_ostr(int_bytes):
     return OperatorStr("".join(unicode_bytes))
 
 
-
 def _get_ostr(value):
     """If the value is an int, convert it to an OperatorStr and returns it.
     Otherwise, just returns it.
     
     """
-    try:
+    # TODO: The existence of this function is probably a sign of poor design.
+    if isinstance(value, int):
         return bytes_to_ostr(value)
-    except AttributeError:
+    else:
         return value
 
 
@@ -176,7 +180,7 @@ def _apply_operator(operator_string, n, operator):
 
 
 def _rapply_operator(operator_string, n, operator):
-    """Like _apply_operator, only with the arguments reversed/
+    """Like _apply_operator, only with the arguments reversed.
 
     """
     if isinstance(n, float):
